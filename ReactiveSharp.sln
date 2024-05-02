@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34728.123
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReactiveSharp", "ReactiveSharp\ReactiveSharp.csproj", "{EEFA9C24-5547-4CF0-B3E0-BE1BD3527B05}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReactiveSharp.Tests", "ReactiveSharp.Tests\ReactiveSharp.Tests.csproj", "{07A27727-B0E7-4CF0-9B4A-FB5531B4DE6F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EEFA9C24-5547-4CF0-B3E0-BE1BD3527B05}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EEFA9C24-5547-4CF0-B3E0-BE1BD3527B05}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EEFA9C24-5547-4CF0-B3E0-BE1BD3527B05}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EEFA9C24-5547-4CF0-B3E0-BE1BD3527B05}.Release|Any CPU.Build.0 = Release|Any CPU
+		{07A27727-B0E7-4CF0-9B4A-FB5531B4DE6F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{07A27727-B0E7-4CF0-9B4A-FB5531B4DE6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{07A27727-B0E7-4CF0-9B4A-FB5531B4DE6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{07A27727-B0E7-4CF0-9B4A-FB5531B4DE6F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {88570923-B3DD-4411-9EB2-EF74C4FC1D34}
+	EndGlobalSection
+EndGlobal
