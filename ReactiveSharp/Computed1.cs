@@ -1,95 +1,49 @@
-﻿using System.ComponentModel;
+﻿using ReactiveSharp.Primitive;
+using System.ComponentModel;
 
 namespace ReactiveSharp;
 
-public class Computed<T, D> : IReadOnlyRef<T>, IDisposable
+public class Computed<T, D> : ComputedBase<T>
 {
-    private readonly Func<T> getter;
+
     private readonly IReadOnlyRef<D> dep;
 
-    public Computed(Func<T> getter, IReadOnlyRef<D> dep)
+    public Computed(Getter<T> getter, IReadOnlyRef<D> dep): base(getter)
     {
-        this.getter = getter;
         this.dep = dep;
-        _value = getter();
+        AddDependencies();
+    }
 
+    protected override void AddDependencies()
+    {
         dep.PropertyChanged += Watch;
     }
 
-    protected T _value;
-    private bool disposedValue;
-
-    public T Value => _value;
-
-    public event PropertyChangedEventHandler? PropertyChanged;
-
-    protected void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
+    protected override void RemoveDependencies()
     {
-        PropertyChanged?.Invoke(sender, e);
-    }
-
-    public void Watch(object? sender, PropertyChangedEventArgs e)
-    {
-        var value = getter();
-        if (ValueHelpers.AreEqual(_value, value)) return;
-        _value = value;
-        PropertyChanged?.Invoke(sender, e);
-    }
-
-    protected virtual void Dispose(bool disposing)
-    {
-        if (!disposedValue)
-        {
-            if (disposing)
-            {
-                // TODO: 释放托管状态(托管对象)
-            }
-
-            // TODO: 释放未托管的资源(未托管的对象)并重写终结器
-            // TODO: 将大型字段设置为 null
-
-            dep.PropertyChanged -= Watch;
-
-            disposedValue = true;
-        }
-    }
-
-    // // TODO: 仅当“Dispose(bool disposing)”拥有用于释放未托管资源的代码时才替代终结器
-    // ~Computed()
-    // {
-    //     // 不要更改此代码。请将清理代码放入“Dispose(bool disposing)”方法中
-    //     Dispose(disposing: false);
-    // }
-
-    public void Dispose()
-    {
-        // 不要更改此代码。请将清理代码放入“Dispose(bool disposing)”方法中
-        Dispose(disposing: true);
-        GC.SuppressFinalize(this);
+        dep.PropertyChanged -= Watch;
     }
 }
 
 
-public class WritableComputed<T, D> : Computed<T, D>, IRef<T>
+public class WritableComputed<T, D> : WritableComputedBase<T>
 {
 
-    private readonly Action<T> setter;
+    private readonly IReadOnlyRef<D> dep;
 
-    public WritableComputed(Func<T> getter, Action<T> setter, IReadOnlyRef<D> dep) : base(getter, dep)
+    public WritableComputed(Getter<T> getter, Setter<T> setter, IReadOnlyRef<D> dep) : base(getter, setter)
     {
-        this.setter = setter;
+        this.dep = dep;
+        AddDependencies();
     }
 
-    public new T Value
+    protected override void AddDependencies()
     {
-        get => _value;
-        set
-        {
-            if (ValueHelpers.AreEqual(_value, value)) return;
+        dep.PropertyChanged += Watch;
+    }
 
-            _value = value;
-            setter(value);
-            OnPropertyChanged(this, new(nameof(Value)));
-        }
+    protected override void RemoveDependencies()
+    {
+        dep.PropertyChanged -= Watch;
     }
 }

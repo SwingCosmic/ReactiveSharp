@@ -8,7 +8,7 @@ namespace ReactiveSharp;
 
 public static class RefHelpers
 {
-    public static IReadOnlyRef<V> MemberToComputed<T, V>(T obj, Func<V> getter)
+    public static IReadOnlyRef<V> MemberToComputed<T, V>(T obj, Getter<V> getter)
     {
         var selfRef = new Ref<T>(obj);
         return new Computed<V, T>(getter, selfRef);
@@ -44,7 +44,7 @@ public static class RefHelpers
         return new WritableComputed<V, T>(() => getter(obj), v => setter(obj, v), selfRef);
     }
 
-    public static IRef<V> MemberToRef<T, V>(T obj, Func<V> memberGetter, Action<V> memberSetter)
+    public static IRef<V> MemberToRef<T, V>(T obj, Getter<V> memberGetter, Setter<V> memberSetter)
     {
         var selfRef = new Ref<T>(obj);
         return new WritableComputed<V, T>(memberGetter, memberSetter, selfRef);

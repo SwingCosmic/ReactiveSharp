@@ -1,48 +1,22 @@
-﻿using System.ComponentModel;
+﻿using ReactiveSharp.Primitive;
+using System.ComponentModel;
 
 namespace ReactiveSharp;
 
-public class Ref<T>(T value) : IRef<T>, IReadOnlyRef<T>, IEquatable<Ref<T>>
+public class Ref<T>(T value) : MonoValueHost<T>(value), IRef<T>, IReadOnlyRef<T>
 {
-    protected T _value = value;
 
     public T Value
     {
-        get => _value;
+        get => currentValue;
         set
         {
-            if (ValueHelpers.AreEqual(_value, value)) return;
+            if (ValueHelpers.AreEqual(currentValue, value)) return;
 
-            _value = value;
-            PropertyChanged?.Invoke(this, new(nameof(Value)));
+            currentValue = value;
+            OnPropertyChanged(this, new(nameof(Value)));
         }
     }
 
-    public Getter<T> Getter => throw new NotImplementedException();
-
-    public Setter<T> Setter => throw new NotImplementedException();
-
-    public event PropertyChangedEventHandler? PropertyChanged;
-
-    public bool Equals(Ref<T>? other)
-    {
-        if (other is null)
-            return false;
-        if (other.Value is null && Value is null)
-            return true;
-        else if (other.Value is null || Value is null)
-            return false;
-        return Value.Equals(other.Value);
-    }
-
-    public override bool Equals(object? obj)
-    {
-        return Equals(obj as Ref<T>);
-    }
-
-    public override int GetHashCode()
-    {
-        return Value?.GetHashCode() ?? 0;
-    }
 
 }
