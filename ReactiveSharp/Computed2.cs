@@ -17,14 +17,14 @@ public class Computed<T, D1, D2> : ComputedBase<T>
 
     protected override void AddDependencies()
     {
-        dep1.PropertyChanged += Watch;
-        dep2.PropertyChanged += Watch;
+        dep1.ValueChanged += Watch;
+        dep2.ValueChanged += Watch;
     }
 
     protected override void RemoveDependencies()
     {
-        dep1.PropertyChanged -= Watch;
-        dep2.PropertyChanged -= Watch;
+        dep1.ValueChanged -= Watch;
+        dep2.ValueChanged -= Watch;
     }
 
 }
@@ -45,14 +45,14 @@ public class WritableComputed<T, D1, D2> : WritableComputedBase<T>
 
     protected override void AddDependencies()
     {
-        dep1.PropertyChanged += Watch;
-        dep2.PropertyChanged += Watch;
+        dep1.ValueChanged += Watch;
+        dep2.ValueChanged += Watch;
     }
 
     protected override void RemoveDependencies()
     {
-        dep1.PropertyChanged -= Watch;
-        dep2.PropertyChanged -= Watch;
+        dep1.ValueChanged -= Watch;
+        dep2.ValueChanged -= Watch;
     }
 
 }

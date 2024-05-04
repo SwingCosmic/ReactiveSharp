@@ -23,12 +23,12 @@ public abstract class ComputedBase<T> : MonoValueHost<T>, IReadOnlyRef<T>, IDisp
 
     public T Value => currentValue;
 
-    public void Watch(object? sender, PropertyChangedEventArgs e)
+    public void Watch(object? sender, ValueChangedEventArgs e)
     {
         var value = Getter();
         if (ValueHelpers.AreEqual(currentValue, value)) return;
         currentValue = value;
-        OnPropertyChanged(sender, e);
+        OnValueChanged(sender, e);
     }
 
 
@@ -65,6 +65,11 @@ public abstract class ComputedBase<T> : MonoValueHost<T>, IReadOnlyRef<T>, IDisp
         Dispose(disposing: true);
         GC.SuppressFinalize(this);
     }
+
+    public IDisposable Subscribe(IObserver<T> observer)
+    {
+        throw new NotImplementedException();
+    }
 }
 
 
@@ -95,18 +100,20 @@ public abstract class WritableComputedBase<T> : MonoValueHost<T>, IRef<T>, IDisp
         {
             if (ValueHelpers.AreEqual(currentValue, value)) return;
 
+            var oldValue = currentValue;
             currentValue = value;
             Setter(value);
-            OnPropertyChanged(this, new(nameof(Value)));
+            OnValueChanged(this, new(value, oldValue));
         }
     }
 
-    public void Watch(object? sender, PropertyChangedEventArgs e)
+    public void Watch(object? sender, ValueChangedEventArgs e)
     {
         var value = Getter();
         if (ValueHelpers.AreEqual(currentValue, value)) return;
+        var oldValue = currentValue;
         currentValue = value;
-        OnPropertyChanged(sender, e);
+        OnValueChanged(this, new(value, oldValue));
     }
 
 

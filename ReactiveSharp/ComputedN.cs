@@ -18,7 +18,7 @@ public class Computed<T> : ComputedBase<T>
     {
         foreach (var dep in deps)
         {
-            dep.PropertyChanged += Watch;
+            dep.ValueChanged += Watch;
         }
     }
 
@@ -26,7 +26,7 @@ public class Computed<T> : ComputedBase<T>
     {
         foreach (var dep in deps)
         {
-            dep.PropertyChanged -= Watch;
+            dep.ValueChanged -= Watch;
         }
     }
 
@@ -49,7 +49,7 @@ public class WritableComputed<T> : WritableComputedBase<T>
     {
         foreach (var dep in deps)
         {
-            dep.PropertyChanged += Watch;
+            dep.ValueChanged += Watch;
         }
     }
 
@@ -57,7 +57,7 @@ public class WritableComputed<T> : WritableComputedBase<T>
     {
         foreach (var dep in deps)
         {
-            dep.PropertyChanged -= Watch;
+            dep.ValueChanged -= Watch;
         }
     }
 }

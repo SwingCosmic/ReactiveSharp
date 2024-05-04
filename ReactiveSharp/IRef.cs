@@ -1,17 +1,18 @@
-﻿using System.ComponentModel;
+﻿using ReactiveSharp.Primitive;
+using System.ComponentModel;
 
 namespace ReactiveSharp;
 
-public interface IReadOnlyRef<out T> : INotifyPropertyChanged
+public interface IReadOnlyRef<out T> : IValueChangeSource
 {
     /// <summary>
     /// 获取引用的值
     /// </summary>
     public T Value { get; }
+
 }
 
-public delegate T Getter<out T>();
-public delegate void Setter<in T>(T value);
+
 
 public interface IRef<T> : IReadOnlyRef<T>
 {
@@ -21,3 +22,6 @@ public interface IRef<T> : IReadOnlyRef<T>
     public new T Value { get; set; }
 
 }
+
+public delegate T Getter<out T>();
+public delegate void Setter<in T>(T value);

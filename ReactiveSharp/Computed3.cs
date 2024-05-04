@@ -20,16 +20,16 @@ public class Computed<T, D1, D2, D3> : ComputedBase<T>
 
     protected override void AddDependencies()
     {
-        dep1.PropertyChanged += Watch;
-        dep2.PropertyChanged += Watch;
-        dep3.PropertyChanged += Watch;
+        dep1.ValueChanged += Watch;
+        dep2.ValueChanged += Watch;
+        dep3.ValueChanged += Watch;
     }
 
     protected override void RemoveDependencies()
     {
-        dep1.PropertyChanged -= Watch;
-        dep2.PropertyChanged -= Watch;
-        dep3.PropertyChanged -= Watch;
+        dep1.ValueChanged -= Watch;
+        dep2.ValueChanged -= Watch;
+        dep3.ValueChanged -= Watch;
     }
 
 }
@@ -53,16 +53,16 @@ public class WritableComputed<T, D1, D2, D3> : WritableComputedBase<T>
 
     protected override void AddDependencies()
     {
-        dep1.PropertyChanged += Watch;
-        dep2.PropertyChanged += Watch;
-        dep3.PropertyChanged += Watch;
+        dep1.ValueChanged += Watch;
+        dep2.ValueChanged += Watch;
+        dep3.ValueChanged += Watch;
     }
 
     protected override void RemoveDependencies()
     {
-        dep1.PropertyChanged -= Watch;
-        dep2.PropertyChanged -= Watch;
-        dep3.PropertyChanged -= Watch;
+        dep1.ValueChanged -= Watch;
+        dep2.ValueChanged -= Watch;
+        dep3.ValueChanged -= Watch;
     }
 
 }

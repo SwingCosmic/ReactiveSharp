@@ -1,7 +1,11 @@
 ﻿
 
+using ReactiveSharp.Primitive;
+using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
+using System.Reactive;
+using System.Reactive.Linq;
 using System.Reflection;
 
 namespace ReactiveSharp;
@@ -54,4 +58,14 @@ public static class RefHelpers
     {
         return new Computed<object, T>(() => self.Value!, self);
     }    
+
+
+    public static IObservable<ValueChangedEventArgs> AsObservable<T>(this IReadOnlyRef<T> obj)
+    {
+        return Observable.FromEvent<EventHandler<ValueChangedEventArgs>, ValueChangedEventArgs>(
+            h => (s, e) => h(e),
+            h => obj.ValueChanged += h,
+            h => obj.ValueChanged -= h 
+        ); 
+    }
 }

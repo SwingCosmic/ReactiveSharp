@@ -7,12 +7,13 @@ using System.Threading.Tasks;
 
 namespace ReactiveSharp.Primitive;
 
-public abstract class MonoValueHost<T> : INotifyPropertyChanged, IEquatable<MonoValueHost<T>>
+public abstract class MonoValueHost<T> : IValueChangeSource, INotifyPropertyChanged, IEquatable<MonoValueHost<T>>
 {
 
     protected T currentValue;
 
     public event PropertyChangedEventHandler? PropertyChanged;
+    public event EventHandler<ValueChangedEventArgs>? ValueChanged;
 
     public MonoValueHost(T initialValue) 
     { 
@@ -20,9 +21,10 @@ public abstract class MonoValueHost<T> : INotifyPropertyChanged, IEquatable<Mono
     }
 
 
-    protected void OnPropertyChanged(object? sender, PropertyChangedEventArgs e)
+    protected void OnValueChanged(object? sender, ValueChangedEventArgs e)
     {
-        PropertyChanged?.Invoke(sender, e);
+        ValueChanged?.Invoke(sender, e);
+        PropertyChanged?.Invoke(sender, new PropertyChangedEventArgs("Value"));
     }
 
     public bool Equals(MonoValueHost<T>? other)

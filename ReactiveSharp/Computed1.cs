@@ -16,12 +16,12 @@ public class Computed<T, D> : ComputedBase<T>
 
     protected override void AddDependencies()
     {
-        dep.PropertyChanged += Watch;
+        dep.ValueChanged += Watch;
     }
 
     protected override void RemoveDependencies()
     {
-        dep.PropertyChanged -= Watch;
+        dep.ValueChanged -= Watch;
     }
 }
 
@@ -39,11 +39,11 @@ public class WritableComputed<T, D> : WritableComputedBase<T>
 
     protected override void AddDependencies()
     {
-        dep.PropertyChanged += Watch;
+        dep.ValueChanged += Watch;
     }
 
     protected override void RemoveDependencies()
     {
-        dep.PropertyChanged -= Watch;
+        dep.ValueChanged -= Watch;
     }
 }
