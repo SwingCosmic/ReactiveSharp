@@ -2,8 +2,10 @@
 
 像前端一样在.NET中简单地使用响应式数据。
 
-* 实现`IObservable<T>`，因此可以与`Rx.NET`配合使用
+* 实现了`IObservable<T>`，因此可以与`Rx.NET`配合使用
 * 实现了`INotifyPropertyChanged`等接口，可以与`WPF`等传统数据绑定一起工作
+* 支持从.NET Standard 2.1(Unity)到.NET8+，且针对.NET新版本功能做了不同的优化
+* 依赖反射和动态代码的部分较少，可以在.NET Native AOT或者Unity IL2CPP等AOT环境下运行，只有少数方法不能使用。如果使用.NET7+，可以从方法的注解上看出哪些在AOT下会出现问题
 
 ## 重要的类型
 
