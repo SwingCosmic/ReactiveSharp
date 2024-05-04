@@ -27,8 +27,10 @@ public abstract class ComputedBase<T> : MonoValueHost<T>, IReadOnlyRef<T>, IDisp
     {
         var value = Getter();
         if (ValueHelpers.AreEqual(currentValue, value)) return;
+
+        var oldValue = currentValue;
         currentValue = value;
-        OnValueChanged(sender, e);
+        OnValueChanged(sender, new ValueChangedEventArgs(value, oldValue));
     }
 
 

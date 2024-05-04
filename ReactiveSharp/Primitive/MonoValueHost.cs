@@ -2,15 +2,22 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace ReactiveSharp.Primitive;
 
-public abstract class MonoValueHost<T> : IValueChangeSource, INotifyPropertyChanged, IEquatable<MonoValueHost<T>>
+public abstract class MonoValueHost<T> : 
+    IValueChangeSource, 
+    INotifyPropertyChanged, 
+    IObservable<IValueChangeInfo>, 
+    IEquatable<MonoValueHost<T>>
 {
 
     protected T currentValue;
+
+    protected readonly IObservable<IValueChangeInfo> observable;
 
     public event PropertyChangedEventHandler? PropertyChanged;
     public event EventHandler<ValueChangedEventArgs>? ValueChanged;
@@ -18,12 +25,13 @@ public abstract class MonoValueHost<T> : IValueChangeSource, INotifyPropertyChan
     public MonoValueHost(T initialValue) 
     { 
         currentValue = initialValue;
+        observable = RefHelpers.AsObservable(this);
     }
 
 
     protected void OnValueChanged(object? sender, ValueChangedEventArgs e)
     {
-        ValueChanged?.Invoke(sender, e);
+        ValueChanged?.Invoke(sender, e);// 这个事件同时会触发observable
         PropertyChanged?.Invoke(sender, new PropertyChangedEventArgs("Value"));
     }
 
@@ -48,4 +56,8 @@ public abstract class MonoValueHost<T> : IValueChangeSource, INotifyPropertyChan
         return currentValue?.GetHashCode() ?? 0;
     }
 
+    public IDisposable Subscribe(IObserver<IValueChangeInfo> observer)
+    {
+        return observable.Subscribe(observer);
+    }
 }

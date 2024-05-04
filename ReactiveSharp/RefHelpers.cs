@@ -60,7 +60,7 @@ public static class RefHelpers
     }    
 
 
-    public static IObservable<ValueChangedEventArgs> AsObservable<T>(this IReadOnlyRef<T> obj)
+    public static IObservable<IValueChangeInfo> AsObservable(this IValueChangeSource obj)
     {
         return Observable.FromEvent<EventHandler<ValueChangedEventArgs>, ValueChangedEventArgs>(
             h => (s, e) => h(e),

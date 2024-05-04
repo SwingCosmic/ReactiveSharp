@@ -7,7 +7,13 @@ using System.Threading.Tasks;
 
 namespace ReactiveSharp.Primitive;
 
-public class ValueChangedEventArgs(object? newValue, object? oldValue) : EventArgs
+public interface IValueChangeInfo
+{
+    public object? OldValue { get; }
+    public object? NewValue { get; }
+}
+
+public class ValueChangedEventArgs(object? newValue, object? oldValue) : EventArgs, IValueChangeInfo
 {
     public object? OldValue { get; } = oldValue;
     public object? NewValue { get; } = newValue;
