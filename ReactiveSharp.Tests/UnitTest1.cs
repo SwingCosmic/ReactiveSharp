@@ -1,4 +1,5 @@
 using Newtonsoft.Json.Linq;
+using NUnit.Framework.Internal;
 using ReactiveSharp.Primitive;
 
 namespace ReactiveSharp.Tests;
@@ -71,5 +72,28 @@ public class Tests
 
     }
 
+
+    [Test]
+    public async Task TestThrottleRef()
+    {
+
+        var throttleRef = new ThrottledRef<int>(0, TimeSpan.FromMilliseconds(500));
+
+        throttleRef.Value++;
+        throttleRef.Value++;
+        await Task.Delay(200);// Wait for less than throttle period
+        throttleRef.Value++;
+        throttleRef.Value++;
+        throttleRef.Value++;
+        throttleRef.Value++;
+        throttleRef.Value++;
+        throttleRef.Value++;
+        throttleRef.Value++;
+        await Task.Delay(700);// Wait for more than throttle period
+        throttleRef.Value++;
+        await Task.Delay(1000);
+
+        Assert.That(throttleRef.Value, Is.EqualTo(2));
+    }
 
 }

@@ -1,6 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 
-namespace ReactiveSharp;
+namespace ReactiveSharp.Primitive;
 
 internal static class ValueHelpers
 {

@@ -1,13 +1,17 @@
 ﻿using System;
+using System.Collections;
+using System.Data.Common;
 using System.Reactive;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
+using System.Runtime.CompilerServices;
 
 
-namespace ReactiveSharp.Primitive;
+namespace ReactiveSharp;
 
 public class FunctionalHelpers
 {
+
     public static Action Debounce(Action action, TimeSpan delay)
     {
         CancellationTokenSource? cancellationTokenSource = null;
@@ -33,28 +37,28 @@ public class FunctionalHelpers
 
     public static Action Throttle(Action action, TimeSpan period)
     {
-        var lastExecutionTime = DateTime.MinValue;
-        return () =>
-        {
-            var now = DateTime.Now;
-            if (now - lastExecutionTime >= period)
-            {
-                action();
-                lastExecutionTime = now;
-            }
-        };
+        var subject = new Subject<Unit>();
+
+        var throttledObservable = subject
+            .Throttle(period)
+            .Publish()
+            .RefCount();
+
+        throttledObservable.Subscribe(_ => action());
+
+        return () => subject.OnNext(Unit.Default);
     }
     public static Action<T> Throttle<T>(Action<T> action, TimeSpan period)
     {
-        var lastExecutionTime = DateTime.MinValue;
-        return parameter =>
-        {
-            var now = DateTime.Now;
-            if (now - lastExecutionTime >= period)
-            {
-                action(parameter);
-                lastExecutionTime = now;
-            }
-        };
+        var subject = new Subject<T>();
+
+        var throttledObservable = subject
+            .Throttle(period)
+            .Publish()
+            .RefCount();
+
+        throttledObservable.Subscribe(action);
+
+        return subject.OnNext;
     }
 }
