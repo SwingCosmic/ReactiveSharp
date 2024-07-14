@@ -11,13 +11,10 @@ namespace ReactiveSharp.Primitive;
 public abstract class MonoValueHost<T> : 
     IValueChangeSource, 
     INotifyPropertyChanged, 
-    IObservable<IValueChangeInfo>, 
     IEquatable<MonoValueHost<T>>
 {
 
     protected T currentValue;
-
-    protected readonly IObservable<IValueChangeInfo> observable;
 
     public event PropertyChangedEventHandler? PropertyChanged;
     public event EventHandler<ValueChangedEventArgs>? ValueChanged;
@@ -25,7 +22,6 @@ public abstract class MonoValueHost<T> :
     public MonoValueHost(T initialValue) 
     { 
         currentValue = initialValue;
-        observable = RefHelpers.AsObservable(this);
     }
 
 
@@ -56,8 +52,4 @@ public abstract class MonoValueHost<T> :
         return currentValue?.GetHashCode() ?? 0;
     }
 
-    public IDisposable Subscribe(IObserver<IValueChangeInfo> observer)
-    {
-        return observable.Subscribe(observer);
-    }
 }

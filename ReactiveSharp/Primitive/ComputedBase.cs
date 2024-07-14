@@ -66,10 +66,6 @@ public abstract class ComputedBase<T> : MonoValueHost<T>, IReadOnlyRef<T>, IDisp
         GC.SuppressFinalize(this);
     }
 
-    public IDisposable Subscribe(IObserver<T> observer)
-    {
-        throw new NotImplementedException();
-    }
 }
 
 

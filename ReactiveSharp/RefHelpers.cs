@@ -54,9 +54,9 @@ public static class RefHelpers
         return new WritableComputed<V, T>(memberGetter, memberSetter, selfRef);
     }
 
-    public static IReadOnlyRef<object> AsAnyRef<T>(this IReadOnlyRef<T> self)
+    public static IReadOnlyRef<object?> AsAnyRef<T>(this IReadOnlyRef<T> self)
     {
-        return new Computed<object, T>(() => self.Value!, self);
+        return new Computed<object?, T>(() => self.Value, self);
     }    
 
 

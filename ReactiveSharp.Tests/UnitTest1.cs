@@ -23,16 +23,16 @@ public class Tests
     {
         var obj = new VO { Name = "test", Number = 1 };
 
-        // ÏìÓ¦Ê½¶ÁĞ´ÊôĞÔ°ü×°Æ÷
+        // å“åº”å¼è¯»å†™å±æ€§åŒ…è£…å™¨
         var wrapper = RefHelpers.MemberToRef(obj, o => o.Number);
 
-        // ¼ÆËãÊôĞÔ
+        // è®¡ç®—å±æ€§
         var doubled = new Computed<int, int>(() => wrapper.Value * 2, wrapper);
 
-        // Ç¶Ì×¼ÆËãÊôĞÔ
+        // åµŒå¥—è®¡ç®—å±æ€§
         var hexString = new Computed<string, int>(() => doubled.Value.ToString("X2"), doubled);
 
-        // ¶àÖØÇ¶Ì×¼ÆËãÊôĞÔ£¬Ê¹ÓÃ²»Ö¸¶¨ÒÀÀµÀàĞÍµÄ°æ±¾
+        // å¤šé‡åµŒå¥—è®¡ç®—å±æ€§ï¼Œä½¿ç”¨ä¸æŒ‡å®šä¾èµ–ç±»å‹çš„ç‰ˆæœ¬
         var ret = new Computed<string>(() => $"{doubled.Value}=>0x{hexString.Value}", doubled.AsAnyRef(), hexString);
 
         wrapper.Value = 5;
@@ -55,7 +55,7 @@ public class Tests
         var computed = new Computed<string, string>(() => "The value is changed to " + wrapper.Value, wrapper);
 
         var called = 0;
-        computed.Subscribe(value =>
+        computed.AsObservable().Subscribe(value =>
         {
             called++;
         });
@@ -64,7 +64,7 @@ public class Tests
         Assert.That(called, Is.EqualTo(1));
         Assert.That(computed.Value, Is.EqualTo("The value is changed to newValue"));
 
-        // Disposeºó²»Ó¦¸Ã´¥·¢¼ÆËã
+        // Disposeåä¸åº”è¯¥è§¦å‘è®¡ç®—
         computed.Dispose();
         wrapper.Value = "disposed";
         Assert.That(called, Is.EqualTo(1));

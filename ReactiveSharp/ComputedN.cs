@@ -6,9 +6,9 @@ namespace ReactiveSharp;
 
 public class Computed<T> : ComputedBase<T>
 {
-    private IReadOnlyRef<object>[] deps;
+    private IReadOnlyRef<object?>[] deps;
 
-    public Computed(Getter<T> getter, params IReadOnlyRef<object>[] deps): base(getter)
+    public Computed(Getter<T> getter, params IReadOnlyRef<object?>[] deps): base(getter)
     {
         this.deps = deps;
         AddDependencies();
@@ -37,9 +37,9 @@ public class Computed<T> : ComputedBase<T>
 public class WritableComputed<T> : WritableComputedBase<T>
 {
 
-    private IReadOnlyRef<object>[] deps;
+    private IReadOnlyRef<object?>[] deps;
 
-    public WritableComputed(Getter<T> getter, Setter<T> setter, params IReadOnlyRef<object>[] deps) : base(getter, setter)
+    public WritableComputed(Getter<T> getter, Setter<T> setter, params IReadOnlyRef<object?>[] deps) : base(getter, setter)
     {
         this.deps = deps;
         AddDependencies();
